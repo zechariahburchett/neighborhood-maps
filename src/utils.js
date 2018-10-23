@@ -23,7 +23,7 @@ export function load_google_maps () {
 
 //load foursquare api
 export function load_foursquare () {
-  return fetch('https://api.foursquare.com/v2/venues/explore?near=Dayton&client_id=HFW1HIKPJVYEIJ0TE4PPGCXF4N32WMFVHY5J1V2DKGQZXWVV&client_secret=QABWCB4XCHBTLZSJ5ZO1IZDXSMNENTVSQDWZIC1GG2HTXDE0&v=20182507&query=coffee')
+  return fetch('https://api.foursquare.com/v2/venues/explore?near=Dayton&client_id=HFW1HIKPJVYEIJ0TE4PPGCXF4N32WMFVHY5J1V2DKGQZXWVV&client_secret=QABWCB4XCHBTLZSJ5ZO1IZDXSMNENTVSQDWZIC1GG2HTXDE0&v=20182507&query=food')
     .then(response => {
         return response.json()
     })

@@ -13,6 +13,7 @@ class App extends Component {
     load_foursquare()
       //get response from foursquare api and set state for venues
       .then((responseArray) => {
+        console.log (responseArray)
         this.setState({
         venues: responseArray.response.groups[0].items
         })
@@ -25,14 +26,23 @@ class App extends Component {
       })
   }
 
-//this creates the map on the page
+//this creates the map, markers and info windows for the page
  initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 39.758949, lng: -84.191605},
-      zoom: 12
+      zoom: 14
     });
-    //CREATE MARKERS: this will create the markers on the page for each venue
+    //create one info window on page
+    let infowindow = new window.google.maps.InfoWindow()
+
+    //create the markers and info windows on the page for each venue
     this.state.venues.map(venue => {
+
+      //get data for the info window for venue
+      let contentString = ("<p>" + "<b>"+'Name: '+"</b>" + venue.venue.name + "<br />" +
+                     "<b>" + 'Address: ' + "</b>" + venue.venue.location.address + ' ' + venue.venue.location.city +
+                     ', ' + venue.venue.location.state + ' ' + venue.venue.location.postalCode + "<p />")
+      //CREATE THE MARKERS
       let marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
         map: map,
@@ -48,7 +58,11 @@ class App extends Component {
             //stop animation
             setTimeout(() => {marker.setAnimation(null)},1500);
           }
-        }) // end addListener
+          //set content for info window based on clicked marker
+          infowindow.setContent(contentString)
+          infowindow.open(map, marker);
+        }) // end addListener for Animation
+
       }) //end CREATE MARKERS
     } //end initMap
 
