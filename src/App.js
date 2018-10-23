@@ -35,7 +35,8 @@ class App extends Component {
     this.state.venues.map(venue => {
       let marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
-        map: map
+        map: map,
+        animation: window.google.maps.Animation.DROP
       })
     })
  }
