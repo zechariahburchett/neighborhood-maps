@@ -15,14 +15,14 @@ class App extends Component {
       .then((responseArray) => {
         this.setState({
         venues: responseArray.response.groups[0].items
+        })
+        //after we get response from foursquare get the google map
+        load_google_maps()
+        .then(google =>{
+          //after we get the google maps api connected create the map with markers
+          this.initMap()
+        })
       })
-      //after we get response from foursquare get the google map
-      load_google_maps()
-      .then(google =>{
-        //after we get the google maps api connected create the map with markers
-        this.initMap()
-      })
-    })
   }
 
 //this creates the map on the page
@@ -31,15 +31,26 @@ class App extends Component {
       center: {lat: 39.758949, lng: -84.191605},
       zoom: 12
     });
-    //this will create the markers on the page for each venue
+    //CREATE MARKERS: this will create the markers on the page for each venue
     this.state.venues.map(venue => {
       let marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
         map: map,
         animation: window.google.maps.Animation.DROP
       })
-    })
- }
+      //add animation to a marker when it's clicked
+      marker.addListener('click', () => {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+          } else {
+            //start animation
+            marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            //stop animation
+            setTimeout(() => {marker.setAnimation(null)},1500);
+          }
+        }) // end addListener
+      }) //end CREATE MARKERS
+    } //end initMap
 
   render() {
     return (
@@ -47,8 +58,8 @@ class App extends Component {
         <Map />
       </main>
     )
-  }
-}
+  } // end render
+} //end App
 
 
 
