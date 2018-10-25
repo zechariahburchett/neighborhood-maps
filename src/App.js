@@ -125,12 +125,13 @@ class App extends Component {
               value = {this.state.query}
               onChange = {(event) => this.filterVenues(event.target.value)}
             />
+            <div role='list' tabIndex='0' aria-label='restaurants list'>
             {this.state.filteredVenues && this.state.filteredVenues.length > 0
               && this.state.filteredVenues.map((venue) =>(
-                <div className='listItems' tabIndex='0' key={venue.venue.id}>{venue.venue.name}</div>
-
+                <div className='listItems' role='listitem' tabIndex='0' key={venue.venue.id}>{venue.venue.name}</div>
               ))
             }
+            </div>
         </div>
       </main>
     )
