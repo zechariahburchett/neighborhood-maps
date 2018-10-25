@@ -8,7 +8,8 @@ class App extends Component {
   state = {
     venues: [],
     query: '',
-    markers: []
+    markers: [],
+    filteredVenues: []
   }
 
   componentDidMount(){
@@ -24,15 +25,20 @@ class App extends Component {
         .then(google =>{
           //after we get the google maps api connected create the map with markers
           this.initMap()
-        })
+          //call code to add listener to list listItems
+          this.addListItemListeners(this.state.markers)
+
       })
-  }
+
+      })
+
+}
 
 //this creates the map, markers and info windows for the page
  initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 39.758949, lng: -84.191605},
-      zoom: 12
+      zoom: 11
     });
     //create one info window on page
     let infowindow = new window.google.maps.InfoWindow()
@@ -66,13 +72,36 @@ class App extends Component {
           infowindow.setContent(contentString)
           infowindow.open(map, marker);
         }) // end addListener for Animation
-
+        this.setState ({ filteredVenues: this.state.venues})
       }) //end create the markers
     } //end initMap
+
+    addListItemListeners = (markers) =>{
+      //add listener for list listItems for click
+      //console.log(this.state.markers)
+      document.body.addEventListener("click", function (event) {
+        if (event.target.classList.contains("listItems")) {
+          // console.log (event.target.innerText)
+          // console.log (markers)
+          let markerClicked = markers.find( marker => marker.name === event.target.innerText )
+          window.google.maps.event.trigger(markerClicked, 'click');
+    }})
+      //add listener for list listItems for enter key
+    document.body.addEventListener("keyup", function (event) {
+      if (event.target.classList.contains("listItems")) {
+        // console.log (event.target.innerText)
+        // console.log (markers)
+        if (event.keyCode === 13) {
+        let markerClicked = markers.find( marker => marker.name === event.target.innerText )
+        window.google.maps.event.trigger(markerClicked, 'click');
+      }
+  }})
+    }
 
 
     filterVenues = (query) => {
        this.setState({query: query});
+       let filter = this.state.venues.filter(venue => venue.venue.name.toLowerCase().includes(query.toLowerCase()))
        // console.log (this.state.query)
        //console.log (this.state.markers)
        this.state.markers.forEach(marker =>{
@@ -82,6 +111,7 @@ class App extends Component {
             marker.setVisible(false);
           }
        })
+       this.setState ({ filteredVenues: filter });
      }
 
   render() {
@@ -95,6 +125,12 @@ class App extends Component {
               value = {this.state.query}
               onChange = {(event) => this.filterVenues(event.target.value)}
             />
+            {this.state.filteredVenues && this.state.filteredVenues.length > 0
+              && this.state.filteredVenues.map((venue) =>(
+                <div className='listItems' tabIndex='0' key={venue.venue.id}>{venue.venue.name}</div>
+
+              ))
+            }
         </div>
       </main>
     )
