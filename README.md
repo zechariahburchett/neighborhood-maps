@@ -12,6 +12,7 @@ cd neighborhood-maps
 ```
 After this, run the following code to launch the application.
 ```
+npm install
 npm start
 ```
 
