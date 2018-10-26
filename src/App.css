@@ -17,14 +17,20 @@
   text-align: center;
 }
 
+#title {
+  font-size: 18px;
+}
+
 #sidebar input {
   width: 90%;
   margin: 10px auto;
   display: block;
+
 }
+
 .listItems{
   padding: 5px;
-  margin-right: auto;
+  margin-right: 20%;
   margin-left: auto;
   margin-bottom: 5px;
   border: 1px solid black;
@@ -40,13 +46,4 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
