@@ -11,12 +11,18 @@ export function load_google_maps () {
       // delete the global callback to tidy up since it is no longer needed
       delete window.resolveGoogleMapsPromise;
     }
+    //catch error for api key being incorrect - authorization failure
+    //loads if API_KEY is invalid
+    window.gm_authFailure = function() {
+      alert("Google maps failed to load. There may be a problem with your source link or api key.")
+    }
     // Now, Load the Google Maps API
     const script = document.createElement("script");
     const API_KEY = 'AIzaSyDPymC8Nt9d0RojKQI1wLxuSMXjnFBBAg4';
     script.src = `https://maps.googleapis.com/maps/api/js?libraries=places&key=${API_KEY}&callback=resolveGoogleMapsPromise`;
+    //catch error for script - loads if script src is incorrect
     script.onerror = function(){
-      alert("Google maps failed to load! Try reloading the page.")
+      alert("Google maps failed to load. There may be a problem with your source link or api key.")
     }
     script.async = true;
     document.body.appendChild(script);
