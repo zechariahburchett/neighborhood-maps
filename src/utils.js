@@ -15,9 +15,12 @@ export function load_google_maps () {
     const script = document.createElement("script");
     const API_KEY = 'AIzaSyDPymC8Nt9d0RojKQI1wLxuSMXjnFBBAg4';
     script.src = `https://maps.googleapis.com/maps/api/js?libraries=places&key=${API_KEY}&callback=resolveGoogleMapsPromise`;
+    script.onerror = function(){
+      alert("Google maps failed to load! Try reloading the page.")
+    }
     script.async = true;
     document.body.appendChild(script);
-  });
+  })
 }
 //End borrowed code
 
@@ -28,6 +31,6 @@ export function load_foursquare () {
         return response.json()
     })
     .catch(error => {
-      console.log("ERROR! " + error)
+      alert("ERROR! " + error)
     })
   }
